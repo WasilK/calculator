@@ -1,42 +1,52 @@
+let ops = document.querySelectorAll(".op");
+let nums = document.querySelectorAll(".num");
+
+ops.forEach((op) =>
+  op.addEventListener("click", (e) => {
+    let o = e.target.textContent;
+    operator = o;
+    console.log(operator);
+    if (operator == "=") {
+      let res = add(firstNum, secondNum);
+      firstNum = res;
+      secondNum = 0;
+      operator = null;
+      justCalculated = true;
+      console.log(res);
+    }
+  }),
+);
+
+let operator = null;
+let prevOperator = null;
+let firstNum = 0;
+let secondNum = 0;
+let justCalculated = false;
+
 function add(a, b) {
   return a + b;
 }
 
-function mul(a, b) {
-  return a * b;
+function takeNum1(a) {
+  firstNum = firstNum * 10 + a;
 }
-
-function sub(a, b) {
-  return b - a;
+function takeNum2(a) {
+  secondNum = secondNum * 10 + a;
 }
-
-function div(a, b) {
-  return b / a;
-}
-
-function operate(a, op, b) {
-  if (op === "+") {
-    return add(a, b);
-  } else if (op === "*") {
-    return mul(a, b);
-  } else if (op === "-") {
-    return sub(a, b);
-  } else if (op === "/") {
-    return div(a, b);
-  }
-}
-
-function call() {
-  let a = +prompt("Enter a number", 0);
-  while (true) {
-    let op = prompt("Enter operator", "+");
-    if (op == "=") {
-      break;
+nums.forEach((num) =>
+  num.addEventListener("click", (e) => {
+    if (justCalculated) {
+      firstNum = 0;
+      justCalculated = false;
     }
-    let b = +prompt("Enter a number", 0);
-    a = operate(a, op, b);
-    alert(a);
-  }
-  alert(a);
-}
-call();
+    if (operator == null) {
+      let a = e.target.textContent;
+      takeNum1(+a);
+      console.log(firstNum);
+    } else {
+      let b = e.target.textContent;
+      takeNum2(+b);
+      console.log(secondNum);
+    }
+  }),
+);
